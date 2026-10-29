@@ -46,7 +46,6 @@ export const verifyEmailOtp = async ({
     consume = false,
 }) => {
     const emailNormalized = normalizedEmail(email);
-
     if (!emailNormalized || !code) {
         return {
             verified: false,
@@ -80,13 +79,11 @@ export const verifyEmailOtp = async ({
     if (!isMatch) {
         record.attempts += 1;
         await record.save();
-
         return {
             verified: false,
             reason: 'Invalid OTP',
         };
     }
-
     if (consume) {
         record.consumeAt = new Date();
         await record.save();
