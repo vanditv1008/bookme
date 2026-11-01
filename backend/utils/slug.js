@@ -7,3 +7,4 @@ const slugify = (value) => {
         .replace(/-+/g, '-');
 };
 export default slugify;
+//it conerts string to lowercase and remove spaces to create good clean url

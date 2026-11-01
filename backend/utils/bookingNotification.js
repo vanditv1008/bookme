@@ -22,20 +22,18 @@ const getSender = () => {
 
   return { email, name };
 };
-//creaes final platform
+//creates final platform
 const getPlatformSender = (senderName) => {
   const sender = getSender();
-
   return {
     email: sender.email,
     name: senderName || sender.name,
   };
 };
-//
+//who has sent the email
 const getReplyTo = (replyTo) => {
   const email = parseEmailAddress(replyTo?.email || '');
-  if (!email) return null;
-
+  if (!email) return null;//if email undefined code not broke
   return {
     email,
     name: replyTo.name || email,
@@ -54,7 +52,7 @@ const getBrevoErrorMessage = (statusCode, parsed) => {
   }
   return message;
 };
-
+//
 export const getEmailConfigStatus = () => {
   const sender = getSender();
   const missing = [];
@@ -75,14 +73,14 @@ export const getEmailConfigStatus = () => {
     requiresPerUserAuthorization: false,
   };
 };
-
+//forwards booking amount to string 
 const formatMoney = (amount = 0, currency = 'inr') => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: currency.toUpperCase(),
   }).format(amount / 100);
 };
-
+///to convert readable booking time
 const formatDateTime = (booking, timezone = 'Asia/Kolkata') => {
   const date = new Date(`${booking.date}T${booking.startTime}:00`);
   const displayDate = new Intl.DateTimeFormat('en-IN', {
@@ -114,7 +112,7 @@ const buildSubject = (type, businessName, recipientType) => {
   if (type === 'status') return `Your booking with ${businessName} was updated`;
   return `Your booking with ${businessName} is confirmed`;
 };
-
+//generates first mssg inside event mody
 const buildIntro = ({ type, serviceName, recipientType }) => {
   if (recipientType === 'provider') {
     if (type === 'rescheduled') return `A ${serviceName} booking has been rescheduled.`;
@@ -128,7 +126,7 @@ const buildIntro = ({ type, serviceName, recipientType }) => {
   if (type === 'status') return `Your ${serviceName} booking was updated.`;
   return `Your ${serviceName} booking is confirmed.`;
 };
-
+//html email layout  and convert to stylish email
 const buildCompanyEmailHtml = ({ title, eyebrow = 'BookMe', intro, rows, accent = '#7D57F5', notes, calendarUrl, footer }) => {
   const detailRows = rows
     .filter((row) => row.value !== undefined && row.value !== null && row.value !== '')
@@ -187,7 +185,7 @@ const buildCompanyEmailHtml = ({ title, eyebrow = 'BookMe', intro, rows, accent 
     </html>
   `;
 };
-
+//low level email sender makes api request to brevo and also validates both emails in env
 const sendWithBrevo = async ({ to, subject, text, htmlContent, senderName, replyTo }) => {
   const status = getEmailConfigStatus();
   if (!status.configured) {
@@ -238,7 +236,7 @@ const sendWithBrevo = async ({ to, subject, text, htmlContent, senderName, reply
     req.end();
   });
 };
-
+//handles missing data
 const buildBookingMessage = ({ business, service, booking, type, recipientType }) => {
   const businessName = business.businessName || business.name || 'BookMe';
   const serviceName = service.name || 'appointment';
@@ -331,7 +329,7 @@ export const sendBookingNotification = async ({ business, service, booking, type
 
   return { sent: true, provider: 'brevo', recipients: results };
 };
-
+//sends verification code to emails
 export const sendOtpNotification = async ({ email, code, purpose }) => {
   const title = purpose === 'registration' ? 'Verify your BookMe account' : 'Verify your booking email';
   const intro = `Use this verification code to continue. The code expires in 10 minutes.`;

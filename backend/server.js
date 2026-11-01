@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 //DB
-connectDB();
+await connectDB();
 //ROUTES
 
 app.get("/",(req,res)=>{

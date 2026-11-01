@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import EmailOtp from '../models/emailOtp.js';
 import { sendOtpNotification } from './bookingNotifications.js';
-
+//maximum allowed time
 const OTP_TTL_MINUTES = 10;
 const MAX_ATTEMPTS = 5;
 
@@ -14,14 +14,17 @@ export const requestEmailOtp = async ({ email, purpose }) => {
     if (!emailNormalized) {
         throw new Error('Email is required');
     }
+    //ABOVE FUNCTION
     const code = createCode();
     const codeHash = await bcrypt.hash(code, 10);
     const expireAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000);
+    //
     await EmailOtp.deleteMany({
         email: emailNormalized,
         purpose,
         consumeAt: null,
     });
+
     await EmailOtp.create({
         email: emailNormalized,
         purpose,
@@ -39,6 +42,8 @@ export const requestEmailOtp = async ({ email, purpose }) => {
         expiresInMinutes: OTP_TTL_MINUTES,
     };
 };
+
+//sent to brevo for checking
 export const verifyEmailOtp = async ({
     email,
     purpose,
@@ -58,14 +63,14 @@ export const verifyEmailOtp = async ({
         consumeAt: null,
         expireAt: { $gt: new Date() },
     }).sort({ createdAt: -1 });
-
+//if nothing recorded
     if (!record) {
         return {
             verified: false,
             reason: 'OTP expired or not found',
         };
     }
-
+//attemps greater than 5
     if (record.attempts >= MAX_ATTEMPTS) {
         return {
             verified: false,
@@ -76,6 +81,7 @@ export const verifyEmailOtp = async ({
         String(code).trim(),
         record.codeHash
     );
+    //if not matched
     if (!isMatch) {
         record.attempts += 1;
         await record.save();
@@ -84,6 +90,7 @@ export const verifyEmailOtp = async ({
             reason: 'Invalid OTP',
         };
     }
+    
     if (consume) {
         record.consumeAt = new Date();
         await record.save();

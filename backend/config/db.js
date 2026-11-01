@@ -1,7 +1,13 @@
 import mongoose from "mongoose";
-export const connectDB =async () =>{
-    await mongoose.connect("mongodb+srv://vijayvandit101_db_user:6AR3LRHhIs5ryGgN@cluster0.993tvsz.mongodb.net/bokme")
-    .then(() =>{
-        console.log("DB started");
-    });
-}
+
+export const connectDB = async () => {
+    const uri = process.env.MONGODB_URI;
+    if (!uri) {
+        throw new Error("MONGODB_URI is not configured");
+    }
+
+    await mongoose.connect(uri);
+    console.log("DB started");
+};
+
+
