@@ -89,7 +89,7 @@ const userSchema =new mongoose.Schema(
                 type:String,
                 default:'',
             },
-            iscomplete:{
+            isComplete:{
                 type:Boolean,
                 default:false,
             },

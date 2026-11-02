@@ -2,7 +2,11 @@ import Service from "../models/Service.js";
 
 export const listService=async (req,res)=>{
     try {
-        const services=(await Service.find({userId:req.userId,isDeleted:{$ne:true}})).toSorted({createdAt:-1}).res.json({services});
+        const services = await Service.find({
+            userId: req.user.id,
+            isDeleted: { $ne: true },
+        }).sort({ createdAt: -1 });
+        res.json({ services });
     } catch (error) {
         res.status(500).json({message:'Server error',error:error.message});
     }

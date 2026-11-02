@@ -3,7 +3,7 @@ import { isValidTimeRange } from "../utils/time.js";
 
 export const listAvaiability = async (req, res) => {
     try {
-        const availability = (await Availability.find({ userId: req.user.id })).toSorted({dayOfWeek:1});
+        const availability = await Availability.find({ userId: req.user.id }).sort({ dayOfWeek: 1 });
         res.json({ availability });
 
     } catch (error) {
@@ -25,7 +25,7 @@ export const saveAvailability = async (req, res) => {
 
         const availability = await Availability.findOneAndUpdate(
             { userId: req.user.id, dayOfWeek },
-            { slots: cleanedSlots },
+            { slot: cleanedSlots },
             { new: true, upsert: true }
         );
 

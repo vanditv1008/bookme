@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt.js';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Booking from '../models/Booking.js';
@@ -129,7 +129,7 @@ export const loginAdmin = async (req, res) => {
         return res.status(401).json({ message: 'Invalid email or password' });
     }
 res.json({
-    message: 'Admin logged in sucessfully',
+    message: 'Admin logged in successfully',
     token: createAdminToken(adminEmail),
     admin: { email: adminEmail },
   });

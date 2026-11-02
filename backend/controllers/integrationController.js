@@ -16,11 +16,11 @@ export const handleGoogleCallback=async(req,res)=>{
             
         }
         const token=await getGoogleTokens(code);
-        if(!getGoogleTokens.refresh_token){
+        if(!token.refresh_token){
             return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/profile?calendar=missing-refresh-token`);
         };
         await User.findByIdAndUpdate(state,{
-googleRefreshToken: tokens.refresh_token,
+googleRefreshToken: token.refresh_token,
   googleCalendarConnected: true,
   googleCalendarId: 'primary',
         });
@@ -29,4 +29,3 @@ googleRefreshToken: tokens.refresh_token,
          res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/profile?calendar=failed`);
     }
 }
-

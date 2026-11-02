@@ -39,6 +39,11 @@ const serviceSchema=new mongoose.Schema(
         default:false,
         index:true,
         },
+        isDeleted:{
+            type:Boolean,
+            default:false,
+            index:true,
+        },
     },
     {timestamps:true}
 );

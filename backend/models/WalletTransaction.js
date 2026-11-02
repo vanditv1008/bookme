@@ -12,7 +12,7 @@ const walletTransactionSchema=new mongoose.Schema({
         ref:"Booking",
         index:true,
     },
-    withdrawId:{
+    withdrawalId:{
           type:mongoose.Schema.Types.ObjectId,
         ref:"Withdrawal",
         index:true,
@@ -35,6 +35,11 @@ const walletTransactionSchema=new mongoose.Schema({
         default:'',
         trim:true,
     },
+    description:{
+        type:String,
+        default:'',
+        trim:true,
+    },
 },
     {timestamps:true}
 
@@ -47,4 +52,5 @@ walletTransactionSchema.index(
     }
 );
 
+const WalletTransaction = mongoose.model("WalletTransaction", walletTransactionSchema);
 export default WalletTransaction;

@@ -5,5 +5,5 @@ import auth from '../middleware/auth.js';
 const router = express.Router();
 
 router.get('/', auth, listAvaiability);
-router.get('/', auth, saveAvailability);
+router.put('/', auth, saveAvailability);
 export default router;

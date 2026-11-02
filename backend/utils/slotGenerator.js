@@ -8,7 +8,7 @@ export const generateSlots=async ({userId,service,date})=>{
     const availability=await Availability.findOne({userId,dayOfWeek});
 
     if(!availability || availability.slot.length===0){
-return [];
+        return [];
     }
     const bookings = await Booking.find({
     userId,
@@ -24,7 +24,7 @@ return [];
 
 const slots = [];
 
-availability.slots.forEach((window) => {
+availability.slot.forEach((window) => {
     let cursor = timeToMinutes(window.startTime);
     const end = timeToMinutes(window.endTime);
     while(cursor+service.duration<=end){

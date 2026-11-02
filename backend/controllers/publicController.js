@@ -3,12 +3,12 @@ import Service from '../models/Service.js';
 import User from '../models/User.js';
 import { buildCustomerCalendarUrl } from '../utils/calendarLink.js';
 import { createBookingCalendarEvent } from '../utils/googleCalendar.js';
-import { sendBookingNotification } from '../utils/bookingNotifications.js';
+import { sendBookingNotification } from '../utils/bookingNotification.js';
 import { requestEmailOtp, verifyEmailOtp } from '../utils/emailOtp.js';
 import { generateSlots } from '../utils/slotGenerator.js';
 import { getStripe, toStripeAmount } from '../utils/stripe.js';
 import { calculatePlatformSplit } from '../utils/money.js';
-import { timesOverlap } from '../utils/overlap.js';
+import { timeOverlap } from '../utils/overlap.js';
 import { createBookingPayoutTransaction } from '../utils/wallet.js';
 
 const getBusinessBySlug=async (slug)=>{
@@ -165,7 +165,7 @@ export const createPublicBooking = async (req, res) => {
     const bookings = await findActiveSlotBookings({ userId: business._id, date });
 
     const hasConflict = bookings.some((booking) => (
-      timesOverlap(startTime, endTime, booking.startTime, booking.endTime)
+      timeOverlap(startTime, endTime, booking.startTime, booking.endTime)
     ));
 
     if (hasConflict) {
@@ -293,7 +293,7 @@ const confirmPaidBooking = async ({ booking, business, service, session }) => {
   });
 
   const hasConflict = conflictingBookings.some((candidate) => (
-    timesOverlap(booking.startTime, booking.endTime, candidate.startTime, candidate.endTime)
+    timeOverlap(booking.startTime, booking.endTime, candidate.startTime, candidate.endTime)
   ));
 
   if (hasConflict) {

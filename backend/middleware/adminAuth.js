@@ -4,7 +4,7 @@ const adminAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer')) {
-    return res.status(401).json({ message: 'Admin authrization required' });
+    return res.status(401).json({ message: 'Admin authorization required' });
   }
 
   try {

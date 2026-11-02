@@ -3,8 +3,8 @@ import Service from '../models/Service.js';
 import User from '../models/User.js';
 import { buildCustomerCalendarUrl } from '../utils/calendarLink.js';
 import { cancelBookingCalendarEvent, updateBookingCalendarEvent } from '../utils/googleCalendar.js';
-import { sendBookingNotification } from '../utils/bookingNotifications.js';
-import { timesOverlap } from '../utils/overlap.js';
+import { sendBookingNotification } from '../utils/bookingNotification.js';
+import { timeOverlap } from '../utils/overlap.js';
 
 /**
  * Retrieves a list of bookings for the authenticated user based on query parameters.
@@ -141,7 +141,7 @@ export const rescheduleBooking = async (req, res) => {
     });
 
     const hasConflict = conflictingBookings.some((candidate) => (
-      timesOverlap(startTime, endTime, candidate.startTime, candidate.endTime)
+      timeOverlap(startTime, endTime, candidate.startTime, candidate.endTime)
     ));
 
     if (hasConflict) {
