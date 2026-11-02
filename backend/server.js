@@ -7,6 +7,11 @@ import authRoutes from './routes/authRoutes.js'
 import serviceRoutes from './routes/serviceRoutes.js'
 import availabilityRoutes from './routes/availabilityRoutes.js'
 import integrationRoutes from './routes/integrationRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
+import bookingRoutes from './routes/bookingRoutes.js';
+import publicRoutes from './routes/publicRoutes.js';
+import adminRoutes from './routes/adminRoutes.js'
+
 
 const PORT=process.env.PORT || 5000;
 const app = express();
@@ -22,7 +27,11 @@ app.use('/api/auth',authRoutes);
 app.use('/api/services',serviceRoutes);
 app.use('/api/availability',availabilityRoutes);
 app.use('/api/integrations',integrationRoutes);
-
+app.use('/api/payments', paymentRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/public',publicRoutes);
+app.use('/public',publicRoutes);
+app.use('/api/admin',adminRoutes);
 
 const server=http.createServer(app);
 
