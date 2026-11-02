@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const serviceSchema=new mongoose.Schema({
+const slotSchema=new mongoose.Schema({
     startTime:{
         type:String,
         required:true,
@@ -11,7 +11,7 @@ const serviceSchema=new mongoose.Schema({
     },
     {_id:false}
 );
-const availabilitySchema=new moongoose.Schema({
+const availabilitySchema=new mongoose.Schema({
     userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -34,5 +34,5 @@ const availabilitySchema=new moongoose.Schema({
 );
 
 availabilitySchema.index({userId:1,dayOfWeek:1},{unique:true});
-const Availability=moongosse.model('Availability',availabilitySchema);
+const Availability=mongoose.model('Availability',availabilitySchema);
 export default Availability;
