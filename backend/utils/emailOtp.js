@@ -1,7 +1,8 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import EmailOtp from '../models/emailOtp.js';
-import { sendOtpNotification } from './bookingNotifications.js';
+import { sendOtpNotification } from './bookingNotification.js';
+import { normalize } from 'path';
 //maximum allowed time
 const OTP_TTL_MINUTES = 10;
 const MAX_ATTEMPTS = 5;
