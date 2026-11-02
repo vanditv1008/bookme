@@ -1,4 +1,4 @@
-import Availability from "../models/availabilityModel.js";
+import Availability from "../models/availability.js";
 import { isValidTimeRange } from "../utils/time.js";
 
 export const listAvaiability = async (req, res) => {
