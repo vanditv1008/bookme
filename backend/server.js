@@ -4,7 +4,7 @@ import 'dotenv/config';
 import http from 'http';
 import {connectDB} from './config/db.js';
 import authRoutes from './routes/authRoutes.js'
-
+import serviceRoutes from './routes/serviceRoutes.js'
 const PORT=process.env.PORT || 5000;
 const app = express();
 
@@ -16,9 +16,9 @@ app.use(express.json());
 await connectDB();
 //ROUTES
 app.use('/api/auth',authRoutes);
-app.get("/",(req,res)=>{
-    res.send("API WORKING");
-});
+app.use('/api/services',serviceRoutes);
+
+
 
 const server=http.createServer(app);
 
