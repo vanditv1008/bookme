@@ -181,7 +181,9 @@ export default function AdminDashboardPage() {
           <div className={s.logoRow}>
             <img src={logo} className={s.logoImg} alt="Logo" />
             <Link to="/admin/dashboard" className={s.logoText}>
-              BookMe  <span className={s.logoAccent}>Admin</span>
+
+              BookMe  
+            <span className={s.logoAccent}>Admin</span>
             </Link>
             
 </div>
@@ -206,7 +208,7 @@ export default function AdminDashboardPage() {
               Users, bookings, revenue and active withdrawals.
             </p>
           </div>
-          {message && <div className={s.meesageBanner}>{message}</div>}
+          {message && <div className={s.messageBanner}>{message}</div>}
         </section>
         <section className={s.statsGrid}>
           {statCards.map((stat, i) => (
