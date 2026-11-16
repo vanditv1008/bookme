@@ -36,7 +36,7 @@ const serviceSchema=new mongoose.Schema(
         },
         isActive:{
         type:Boolean,
-        default:false,
+        default:true,
         index:true,
         },
         isDeleted:{

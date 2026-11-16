@@ -26,7 +26,7 @@ timezone: business.timezone,
 googleCalendarConnected: business.googleCalendarConnected,
 });
 
-const holdWindowStart=()=>Date(Date.now()-30*60*1000);
+const holdWindowStart = () => new Date(Date.now() - 30 * 60 * 1000);
 
 const findActiveSlotBookings = ({ userId, date }) => {
   return Booking.find({

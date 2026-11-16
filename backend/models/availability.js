@@ -1,38 +1,51 @@
 import mongoose from "mongoose";
-const slotSchema=new mongoose.Schema({
-    startTime:{
-        type:String,
-        required:true,
+
+const slotSchema = new mongoose.Schema(
+  {
+    startTime: {
+      type: String,
+      required: true,
     },
-    endTime:{
-        type:String,
-        required:true,
+    endTime: {
+      type: String,
+      required: true,
     },
-    },
-    {_id:false}
+  },
+  { _id: false }
 );
-const availabilitySchema=new mongoose.Schema({
+
+const availabilitySchema = new mongoose.Schema(
+  {
     userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-    index: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      index: true,
+    },
+    dayOfWeek: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 6,
+    },
+    slot: {
+      type: [slotSchema],
+      default: [],
+    },
   },
-  dayOfWeek: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 6,
-  },
-  slot: {
-    type: [slotSchema],
-    default: [],
-  },
-},
-{ timestamps: true }
-
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 
-availabilitySchema.index({userId:1,dayOfWeek:1},{unique:true});
-const Availability=mongoose.model('Availability',availabilitySchema);
+// Virtual so frontend receiving "slots" or "slot" always works
+availabilitySchema.virtual('slots').get(function () {
+  return this.slot;
+});
+
+availabilitySchema.index({ userId: 1, dayOfWeek: 1 }, { unique: true });
+
+const Availability = mongoose.model('Availability', availabilitySchema);
 export default Availability;

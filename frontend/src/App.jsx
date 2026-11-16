@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-const AdminProctedRoute = ({ children }) => {
+const AdminProtectedRoute = ({ children }) => {
   const hasAdminToken = Boolean(localStorage.getItem("adminToken"));
 
   if (!hasAdminToken) {
@@ -114,9 +114,9 @@ export default function App() {
       <Route
         path="/admin/dashboard"
         element={
-          <AdminProctedRoute>
+          <AdminProtectedRoute>
             <AdminDashboardPage />
-          </AdminProctedRoute>
+          </AdminProtectedRoute>
         }
       />
     </Routes>

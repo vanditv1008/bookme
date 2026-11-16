@@ -24,12 +24,9 @@ import {
   Trash2,
   Eye,
   EyeOff,
-  BadgeCheck,
-  AlertCircle,
   Clock,
   IndianRupee,
   FileText,
-  Sparkles,
   Layers,
 } from "lucide-react";
 import { servicesPageStyles as s } from "../assets/dummyStyles";
@@ -341,7 +338,7 @@ export default function ServicesPage() {
               </div>
             )}
 
-            {services.map((service, idx) => (
+            {services.map((service) => (
               <article key={service._id} className={s.serviceCard}>
                 <div className={s.serviceCardInner}>
                   <div className={s.serviceInfoRow}>

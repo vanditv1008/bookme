@@ -254,10 +254,10 @@ export default function PrivacyPolicyPage() {
               If you have questions or concerns about this Privacy Policy,
               please contact us at:{" "}
               <a
-                href="mailto:support@hexagondigitalservices.com"
+                href="mailto:vijayvandit101@gmail.com"
                 className="text-[#7D57F5] font-semibold hover:underline"
               >
-                support@hexagondigitalservices.com
+                vijayvandit101@gmail.com
               </a>
             </p>
           </section>

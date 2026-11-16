@@ -54,7 +54,7 @@ export default function ProfilePage() {
   const [form, setForm] = useState({
     businessName: "",
     businessDescription: "",
-    timezone: "Asia/kolkata",
+    timezone: "Asia/Kolkata",
     brandTheme: "emerald",
     brandAccent: "#6C47FF",
   });

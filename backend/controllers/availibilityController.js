@@ -1,37 +1,39 @@
 import Availability from "../models/availability.js";
 import { isValidTimeRange } from "../utils/time.js";
 
-export const listAvaiability = async (req, res) => {
-    try {
-        const availability = await Availability.find({ userId: req.user.id }).sort({ dayOfWeek: 1 });
-        res.json({ availability });
-
-    } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message })
-    }
+export const listAvailability = async (req, res) => {
+  try {
+    const availability = await Availability.find({ userId: req.user.id }).sort({ dayOfWeek: 1 });
+    res.json({ availability });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
 };
 
+// Backward-compatible typo alias
+export const listAvaiability = listAvailability;
+
 export const saveAvailability = async (req, res) => {
-    try {
-        const { dayOfWeek, slots } = req.body;
+  try {
+    const { dayOfWeek, slots, slot } = req.body;
+    const incomingSlots = slots || slot || [];
 
-        if (dayOfWeek === undefined || dayOfWeek < 0 || dayOfWeek > 6){
-            return res.status(400).json({ message: 'Valid day of week is required' });
-        }
-
-        const cleanedSlots = (slots || []).filter((slot) => (
-            slot.startTime && slot.endTime && isValidTimeRange(slot.startTime, slot.endTime)
-        ));
-
-        const availability = await Availability.findOneAndUpdate(
-            { userId: req.user.id, dayOfWeek },
-            { slot: cleanedSlots },
-            { new: true, upsert: true }
-        );
-
-        res.json({ message: 'Availability saved', availability });
-
-    } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+    if (dayOfWeek === undefined || dayOfWeek < 0 || dayOfWeek > 6) {
+      return res.status(400).json({ message: 'Valid day of week is required' });
     }
-}
+
+    const cleanedSlots = incomingSlots.filter((s) => (
+      s.startTime && s.endTime && isValidTimeRange(s.startTime, s.endTime)
+    ));
+
+    const availability = await Availability.findOneAndUpdate(
+      { userId: req.user.id, dayOfWeek },
+      { slot: cleanedSlots },
+      { new: true, upsert: true }
+    );
+
+    res.json({ message: 'Availability saved', availability });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};

@@ -14,12 +14,12 @@ import {
   Copy,
   RefreshCcw,
 } from "lucide-react";
-import logo from "../assets/logo.png";
-import p1Image from "../assets/P1.png";
+// logo removed
+import p1Image from "../assets/hero.png";
 import whatsappLogo from "../assets/WhatsApp-Logo.wine.png";
 import instaLogo from "../assets/Instagram-Glyph-Color-Logo.wine.png";
 import facebookLogo from "../assets/Facebook-f_Logo-Blue-Logo.wine.png";
-import gmailLogo from "../assets/logo_gmail_lockup_default_2x_r7.png";
+import gmailLogo from "../assets/Google_Calendar-Logo.wine.png";
 import googleCalendarLogo from "../assets/Google_Calendar-Logo.wine.png";
 import p5Image from "../assets/P5.png";
 import C1 from "../assets/icons/C1.png";

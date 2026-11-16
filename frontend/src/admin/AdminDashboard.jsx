@@ -13,7 +13,7 @@ import {
   UserCheck,
   ShieldCheck,
 } from "lucide-react";
-import logo from "../../public/logo.png";
+import logo from "../assets/logo.png";
 import { adminDashboardPageStyles as s } from "../assets/dummyStyles";
 
 const formatMoney = (amount = 0, currency = "INR") =>
@@ -292,7 +292,7 @@ export default function AdminDashboardPage() {
                       <div>
                         <p className={s.withdrawalProviderName}>
                           {withdrawal.userId?.businessName ||
-                            withdrawal.userId.name}
+                            withdrawal.userId?.name || "Unknown Provider"}
                         </p>
                       </div>
                       <p className={s.withdrawalProviderEmail}>

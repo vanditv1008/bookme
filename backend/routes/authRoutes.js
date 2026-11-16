@@ -1,16 +1,29 @@
-import express from 'express'
+import express from 'express';
+import {
+  getMe,
+  loginUser,
+  registerUser,
+  requestRegistrationOTP,
+  updateProfile,
+  verifyRegistrationOTP,
+} from '../controllers/authController.js';
+import auth from '../middleware/auth.js';
 
-import {getMe,loginUser,registerUser,requestRegistrationOTP,updateProfile,verifyRegistrationOTP} from '../controllers/authController.js'
+const router = express.Router();
 
-import auth from '../middleware/auth.js'
+router.post('/register', registerUser);
+router.post('/register/request-otp', requestRegistrationOTP);
+router.post('/register/verify-otp', verifyRegistrationOTP);
+router.post('/login', loginUser);
 
-const router=express.Router();
+// Support both GET and POST for /me
+router.route('/me')
+  .get(auth, getMe)
+  .post(auth, getMe);
 
-router.post('/register',registerUser);
-router.post('/register/request-otp',requestRegistrationOTP);
-router.post('/register/verify-otp',verifyRegistrationOTP);
-router.post('/login',loginUser);
-router.post('/me',auth,getMe);
-router.post('/profile',auth,updateProfile);
+// Support both PUT and POST for /profile
+router.route('/profile')
+  .put(auth, updateProfile)
+  .post(auth, updateProfile);
 
 export default router;

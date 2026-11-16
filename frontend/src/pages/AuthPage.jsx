@@ -3,7 +3,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {login, register, requestRegistrationOtp, verifyRegistrationOtp} from "../api/auth.js";
 import {User, Mail, Lock, Building2, ArrowRight, CalendarDays, Shield, Zap, BadgeCheck} from "lucide-react";
 import { authPageStyles as s } from '../assets/dummyStyles.jsx';
-import logo from "../../public/logo.png";
+import logo from "../assets/logo.png";
 const initialForm = {
     name: "",
     email: "",
@@ -44,11 +44,11 @@ export default function AuthPage() {
     const handleChange = async (event) => {
         const {name, value} = event.target;
 
-        if(name === "emailOtp") {
+        if (name === "emailOtp") {
             const digitsOnly = value.replace(/\D/g, "").slice(0, 6);
             setForm((prev) => ({...prev, emailOtp: digitsOnly}));
-            if(otpVerified) setOtpVerified(false);
-            if(digitsOnly.length === 6 && form.email) {
+            if (otpVerified) setOtpVerified(false);
+            if (digitsOnly.length === 6 && form.email) {
                 try {
                   await verifyRegistrationOtp({
                     email: form.email,
@@ -60,26 +60,26 @@ export default function AuthPage() {
                   setOtpVerified(false);
                   setMessage(error.response?.data?.message || 'Invalid OTP');
                 }
-                return;
             }
+            return;
+        }
 
-            if(name === 'email') {
-                setOtpVerified(false);
-                setOtpSentTo("");
-                setForm((prev) => ({
-                    ...prev,
-                    email: value,
-                    emailOtp: ""
-                }));
-                return;
-            }
+        if (name === 'email') {
+            setOtpVerified(false);
+            setOtpSentTo("");
             setForm((prev) => ({
                 ...prev,
-                [name]: value
+                email: value,
+                emailOtp: ""
             }));
-        };
+            return;
+        }
 
-    }
+        setForm((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
      const sendOtp = async () => {
             if(!form.email) {
                 setMessage('Enter your email first');
@@ -93,7 +93,7 @@ export default function AuthPage() {
                 setOtpSentTo(form.email.trim().toLowerCase());
                 setOtpVerified(false);
                 setOtpCooldown(30);
-                setMessage('Verification code send to your email');
+                setMessage('Verification code sent to your email');
             }
             catch (error) {
                 setMessage(error.response?.data?.message || 'Could not send code');

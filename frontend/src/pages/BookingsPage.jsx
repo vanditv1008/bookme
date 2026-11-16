@@ -9,16 +9,12 @@ import {
 import {
   CalendarDays,
   Clock,
-  BadgeCheck,
   XCircle,
   CreditCard,
   ExternalLink,
   Filter,
-  MoreVertical,
-  Plus,
   Calendar,
   Info,
-  Trash2,
   RefreshCcw,
   Check,
 } from "lucide-react";
@@ -103,13 +99,13 @@ export default function BookingPage() {
     loadBookings();
   };
 
-  const updateRecheduleDraft = (booking, key, value) => {
+  const updateRescheduleDraft = (booking, key, value) => {
     setReschedules((prev) => ({
       ...prev,
       [booking._id]: {
         date: booking.date,
         startTime: booking.startTime,
-        endtime: booking.endtime,
+        endTime: booking.endTime,
         ...prev[booking._id],
         [key]: value,
       },

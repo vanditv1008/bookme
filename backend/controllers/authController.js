@@ -73,6 +73,7 @@ export const registerUser=async (req,res)=>{
             password:hashPassword,
             slug:finalSlug,
             businessName:businessName|| '',
+            businessDescription:businessDescription|| '',
             timezone:timezone||'Asia/Kolkata',
         })
 

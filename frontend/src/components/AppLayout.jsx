@@ -1,10 +1,10 @@
-import logo from "logo.png";
-import hexagonLogo from "Hexagon Logo.png";
+import logo from "../assets/logo.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getMe } from "../api/auth";
 import { appLayoutStyles as s } from "../assets/dummyStyles";
-import LogOut, { ChevronDown, SquareMenu, X } from "lucide-react";
+import { LogOut, ChevronDown, SquareMenu, X } from "lucide-react";
+
 const navItems = [
   { to: "/", label: "Dashboard" },
   { to: "/profile", label: "Profile" },
@@ -18,8 +18,9 @@ export default function AppLayout({ children }) {
   const navigate = useNavigate();
   const hasToken = Boolean(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
-  const [dropdrowOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -35,9 +36,10 @@ export default function AppLayout({ children }) {
     if (hasToken) {
       getMe()
         .then(({ data }) => setUser(data?.user))
-        .catch(() => {}, [hasToken]);
+        .catch(() => {});
     }
-  });
+  }, [hasToken]);
+
   const Logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -45,14 +47,13 @@ export default function AppLayout({ children }) {
 
   const displayName = user?.businessName || user?.name || "My Business";
   const avatarInitial = displayName.slice(0, 1).toUpperCase();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className={s.container}>
       <header className={s.header}>
         <div className={s.headerInner}>
           <Link to="/" className={s.logoLink}>
-            <img src={logo} className={s.logoImg} />
+            <img src={logo} className={s.logoImg} alt="BookMe" />
             <span className={s.logoText}>BookMe</span>
           </Link>
           {/* Navigation Desktop */}
@@ -75,24 +76,25 @@ export default function AppLayout({ children }) {
               <div className={s.accountMenu} ref={dropdownRef}>
                 <button
                   type="button"
-                  onClick={() => setDropdownOpen(!dropdrowOpen)}
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
                   className={s.avatarButton}
                 >
                   <div className={s.avatarCircle}>{avatarInitial}</div>
                   <span className={s.displayName}>{displayName}</span>
                   <ChevronDown
                     className={
-                      dropdrowOpen ? `${s.chevron} ${s.chevronOpen}` : s.chevron
+                      dropdownOpen ? `${s.chevron} ${s.chevronOpen}` : s.chevron
                     }
                   />
                 </button>
-                {dropdrowOpen && (
+                {dropdownOpen && (
                   <div className={s.dropdown}>
                     <button
                       onClick={() => {
                         setDropdownOpen(false);
                         Logout();
                       }}
+                      className={s.logoutButton}
                     >
                       <LogOut className={s.logoutIcon} />
                       Log out
@@ -145,7 +147,7 @@ export default function AppLayout({ children }) {
         <div className={s.footerCard}>
           <div className={s.footerCardTop}>
             <div className={s.footerBrandMark}>
-              <img src={logo} className={s.footerMiniLogo} />
+              <img src={logo} className={s.footerMiniLogo} alt="BookMe" />
               <span className={s.footerBrandName}>BookMe</span>
             </div>
           </div>
@@ -153,7 +155,7 @@ export default function AppLayout({ children }) {
           <div>
             <div>
               <span className={s.footerCopyright}>
-                © BookMe. All rights 
+                © BookMe. All rights reserved.
               </span>
               <div className={s.footerLinks}>
                 <Link to="/privacy" className={s.footerLink}>
@@ -166,21 +168,12 @@ export default function AppLayout({ children }) {
               </div>
             </div>
             <div className={s.footerCreditWrapper}>
-              <a
-                href="https://hexagondigitalservices.com"
-                target="_blank"
-                rel="noreferrer"
-                className={s.footerCreditLink}
-              >
-                <img src={hexagonLogo} className={s.footerCreditLogo} />
-                <span className={s.footerCreditText}>
-                  A{" "}
-                  <span className={s.footerCreditName}>
-                    Hexagon Digital Services
-                  </span>{" "}
-                  product
+              <span className={s.footerCreditText}>
+                Made with passion by{" "}
+                <span className={s.footerCreditName}>
+                  Vandit Vijay
                 </span>
-              </a>
+              </span>
             </div>
           </div>
 

@@ -9,9 +9,8 @@ export default function BookingCancelledPage() {
 
   useEffect(() => {
     const bookingId = searchParams.get("booking_id");
-    const token = searchParams.get("token");
-    if (bookingId && token) {
-      cancelPublicBookingPayment(bookingId, token).catch(() => {});
+    if (bookingId) {
+      cancelPublicBookingPayment(bookingId).catch(() => {});
     }
   }, [searchParams]);
 

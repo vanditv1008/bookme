@@ -16,7 +16,6 @@ import {
   CreditCard,
   Save,
   ExternalLink,
-  Sparkles,
   IndianRupee,
   ArrowUpRight,
   ArrowDownLeft,
@@ -108,11 +107,34 @@ export default function PaymentsPage() {
   };
 
   useEffect(() => {
-    loadOverview().catch((error) => {
-      setMessage(
-        error.response?.data?.message || "Could not load payment details",
-      );
-    });
+    let isMounted = true;
+    (async () => {
+      try {
+        if (!localStorage.getItem("token")) {
+          return;
+        }
+        const { data } = await getPaymentOverview();
+        if (isMounted) {
+          setOverview(data);
+          setForm((prev) => ({
+            ...prev,
+            accountHolderName: data.payoutDetails?.accountHolderName || "",
+            bankName: data.payoutDetails?.bankName || "",
+            ifsc: data.payoutDetails?.ifsc || "",
+            upiId: data.payoutDetails?.upiId || "",
+          }));
+        }
+      } catch (error) {
+        if (isMounted) {
+          setMessage(
+            error.response?.data?.message || "Could not load payment details",
+          );
+        }
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleChange = (event) => {

@@ -11,7 +11,6 @@ import {
   Save,
   Clock,
   BadgeCheck,
-  Sparkles,
 } from "lucide-react";
 import { availabilityPageStyles as s } from "../assets/dummyStyles";
 
@@ -47,9 +46,8 @@ export default function AvailabilityPage() {
 
   const getSlotsForDays = (items, day) => {
     const dayAvailability = items.find((item) => item.dayOfWeek === day);
-    return dayAvailability?.slots?.length
-      ? dayAvailability.slots
-      : [defaultSlot];
+    const daySlots = dayAvailability?.slots || dayAvailability?.slot;
+    return daySlots?.length ? daySlots : [defaultSlot];
   };
 
   const currentDaySummary = useMemo(
@@ -166,14 +164,7 @@ export default function AvailabilityPage() {
     }
   };
 
-  const formatTime = (time24) => {
-    if (!time24) return "";
-    const [h, m] = time24.split(":");
-    const hour = parseInt(h, 10);
-    const ampm = hour >= 12 ? "PM" : "AM";
-    const displayHour = hour % 12 || 12;
-    return `${String(displayHour).padStart(2, "0")}:${m} ${ampm}`;
-  };
+
   return (
     <AppLayout>
       <div className={s.mainGrid}>
@@ -201,7 +192,7 @@ export default function AvailabilityPage() {
               const Icon = dayIcons[index];
               const isSelected = selectedDay === index;
               const hasSaved = availability.some(
-                (item) => item.dayOfWeek === index && item.slots?.length > 0,
+                (item) => item.dayOfWeek === index && (item.slots?.length > 0 || item.slot?.length > 0),
               );
               return (
                 <button
@@ -266,8 +257,8 @@ export default function AvailabilityPage() {
               <div>
                 <h2 className={s.rightDayName}>{days[selectedDay]}</h2>
                 <p className={s.rightSummaryText}>
-                  {currentDaySummary?.slots?.length || 0} saved time{" "}
-                  {currentDaySummary?.slots?.length === 1
+                  {(currentDaySummary?.slots || currentDaySummary?.slot)?.length || 0} saved time{" "}
+                  {(currentDaySummary?.slots || currentDaySummary?.slot)?.length === 1
                     ? "window"
                     : "windows"}
                 </p>

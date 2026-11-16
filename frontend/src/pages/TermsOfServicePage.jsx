@@ -194,7 +194,7 @@ export default function TermsOfServicePage() {
             <p className="text-[15px] text-slate-600 leading-relaxed">
               The Service and its original content (excluding content provided
               by users), features, and functionality are and will remain the
-              exclusive property of BookMe and Hexagon Digital Services. The
+              exclusive property of BookMe and Vandit Vijay. The
               Service is protected by copyright, trademark, and other applicable
               laws. You are granted a limited, non-exclusive, non-transferable
               license to use the Service for its intended purpose.
@@ -278,10 +278,10 @@ export default function TermsOfServicePage() {
             <p className="text-[15px] text-slate-600 leading-relaxed">
               If you have questions about these Terms, please contact us at:{" "}
               <a
-                href="mailto:support@hexagondigitalservices.com"
+                href="mailto:vijayvandit101@gmail.com"
                 className="text-[#7D57F5] font-semibold hover:underline"
               >
-                support@hexagondigitalservices.com
+                vijayvandit101@gmail.com
               </a>
             </p>
           </section>
