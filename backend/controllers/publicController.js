@@ -244,7 +244,6 @@ export const createPublicBooking = async (req, res) => {
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      payment_method_types: ['card'],
       customer_email: normalizedCustomerEmail,
       line_items: [
         {
@@ -300,7 +299,19 @@ const confirmPaidBooking = async ({ booking, business, service, session }) => {
     booking.status = 'payment_failed';
     booking.paymentStatus = 'failed';
     await booking.save();
-    throw new Error('This slot is no longer available. No booking was created.');
+
+    if (session?.payment_intent) {
+      try {
+        const stripe = getStripe();
+        if (stripe) {
+          await stripe.refunds.create({ payment_intent: session.payment_intent });
+        }
+      } catch (refundError) {
+        console.error('Stripe conflict refund failed:', refundError.message);
+      }
+    }
+
+    throw new Error('This slot is no longer available. Any payment made has been refunded.');
   }
 
   booking.status = 'confirmed';
