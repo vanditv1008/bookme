@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const adminClient = axios.create({
-  baseURL:  "https://bookme-backend-seven.vercel.app/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://bookme-backend-seven.vercel.app/api",
 });
 
 adminClient.interceptors.request.use((config) => {
