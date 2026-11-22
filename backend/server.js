@@ -20,8 +20,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// DB connection middleware for serverless / traditional
-await connectDB();
+// Ensure DB connection for serverless / traditional environments
+connectDB().catch((err) => console.error('Initial DB connection error:', err.message));
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error('Database connection error:', error.message);
+    res.status(500).json({ message: 'Database connection failed', error: error.message });
+  }
+});
 
 // ROUTES
 app.use('/api/auth', authRoutes);
