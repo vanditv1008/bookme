@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import EmailOtp from '../models/emailOtp.js';
 import { sendOtpNotification } from './bookingNotification.js';
